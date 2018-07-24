@@ -3335,8 +3335,9 @@ void CPaintManagerUI::ProcessMultiLanguageTokens(CDuiString& pStrMultiLanguage)
 	// Replace string-tokens: %{nnn}, nnn=int
 	int iPos = pStrMultiLanguage.Find(_T('%'));
 	while( iPos >= 0 ) {
+		int iEndPos = 0;
 		if( pStrMultiLanguage.GetAt(iPos + 1) == _T('{') ) {
-			int iEndPos = iPos + 2;
+			iEndPos = iPos + 2;
 			while( isdigit(pStrMultiLanguage.GetAt(iEndPos)) ) iEndPos++;
 			if( pStrMultiLanguage.GetAt(iEndPos) == '}' ) {
 				LPCTSTR pStrTemp = CPaintManagerUI::GetMultiLanguageString((UINT)_ttoi(pStrMultiLanguage.GetData() + iPos + 2));
@@ -3344,7 +3345,7 @@ void CPaintManagerUI::ProcessMultiLanguageTokens(CDuiString& pStrMultiLanguage)
 				    pStrMultiLanguage.Replace(pStrMultiLanguage.Mid(iPos, iEndPos - iPos + 1), pStrTemp);
 			}
 		}
-		iPos = pStrMultiLanguage.Find(_T('%'), iPos + 1);
+		iPos = pStrMultiLanguage.Find(_T('%'), iEndPos + 1);
 	}
 }
 
